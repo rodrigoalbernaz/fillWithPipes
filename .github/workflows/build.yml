@@ -26,7 +26,7 @@ jobs:
         pyinstaller --onefile app.py
 
     - name: Upload EXE artifact
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v2
       with:
         name: my-windows-app
         path: dist/tu_script.exe
