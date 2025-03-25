@@ -13,7 +13,7 @@ Este conversor permite cargar un archivo `.txt` delimitado por `|`, completar lo
 
 # Entradas del usuario
 settlement_currency = st.text_input("💱 Moneda de liquidación (Settlement Currency):", value="USD")
-exchange_rate = st.number_input("💹 Tasa de cambio (Settlement Exchange Rate):", value=1.0, format="%.4f")
+exchange_rate = st.number_input("💹 Tasa de cambio (Settlement Exchange Rate):", value=0.0, format="%.4f")
 
 uploaded_file = st.file_uploader("📤 Subí tu archivo `.txt` delimitado por `|`", type="txt")
 
