@@ -1,41 +1,34 @@
+import streamlit as st
 import pandas as pd
-import tkinter as tk
-from tkinter import simpledialog, filedialog
+import io
 
-# Inicializar GUI
-root = tk.Tk()
-root.withdraw()
+st.title("Conversor de archivo TXT con Settlement info")
 
-# Seleccionar archivo TXT
-file_path = filedialog.askopenfilename(
-    title="Selext TXT file",
-    filetypes=[("Text files", "*.txt")]
-)
+# Entradas del usuario
+settlement_currency = st.text_input("Moneda de liquidación (Settlement Currency):", value="USD")
+exchange_rate = st.number_input("Tasa de cambio (Settlement Exchange Rate):", value=1.0, format="%.4f")
 
-if file_path:
-    # Pedir datos al usuario
-    settlement_currency = simpledialog.askstring("Input", "Enter Settlement Currency (e.g., USD):")
-    exchange_rate = simpledialog.askfloat("Input", "Enter Settlement Exchange Rate (e.g., 4319.1616):")
+uploaded_file = st.file_uploader("Subí tu archivo TXT delimitado por |", type="txt")
 
+if uploaded_file and settlement_currency and exchange_rate:
     # Leer el archivo
-    df = pd.read_csv(file_path, delimiter='|')
+    df = pd.read_csv(uploaded_file, delimiter='|')
 
-    # Completar los campos
+    # Aplicar cambios
     df['Settlement_Currency'] = settlement_currency
     df['Settlement_Exchange_Rate'] = exchange_rate
     df['Settlement_Amount'] = (df['Amount'] / exchange_rate).round(4)
 
-    # Guardar archivo actualizado
-    output_path = filedialog.asksaveasfilename(
-        defaultextension=".txt",
-        filetypes=[("Text files", "*.txt")],
-        title="Save new file"
-    )
+    # Mostrar tabla
+    st.subheader("Vista previa del archivo actualizado")
+    st.dataframe(df)
 
-    if output_path:
-        df.to_csv(output_path, sep='|', index=False)
-        print(f"✅ File succesfully saved:\n{output_path}")
-    else:
-        print("❌ No path selected to save file")
-else:
-    print("❌ No file selected")
+    # Preparar archivo para descarga
+    output = io.StringIO()
+    df.to_csv(output, sep='|', index=False)
+    st.download_button(
+        label="📥 Descargar archivo actualizado",
+        data=output.getvalue(),
+        file_name="archivo_actualizado.txt",
+        mime="text/plain"
+    )
