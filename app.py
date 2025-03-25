@@ -25,10 +25,13 @@ if uploaded_file and settlement_currency and exchange_rate:
 
     # Preparar archivo para descarga
     output = io.StringIO()
-    df.to_csv(output, sep='|', index=False)
+    txt_data = df.to_csv(sep='|', index=False, line_terminator='\n')
+    output.write(txt_data)
+
     st.download_button(
         label="📥 Descargar archivo actualizado",
         data=output.getvalue(),
         file_name="archivo_actualizado.txt",
         mime="text/plain"
     )
+
