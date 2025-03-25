@@ -9,31 +9,28 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        pip install pyinstaller pandas
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller pandas
 
-    - name: Build EXE with PyInstaller
-      run: |
-        pyinstaller --onefile app.py
+      - name: Build EXE with PyInstaller
+        run: |
+          pyinstaller --onefile app.py
 
-    - name: Zip the EXE file
-      run: |
-        powershell Compress-Archive -Path dist\app.exe -DestinationPath app.zip
+      - name: Compress EXE into ZIP
+        run: |
+          powershell -Command "Compress-Archive -Path dist\app.exe -DestinationPath build_output\app.zip"
 
-    - name: Upload zip manually
-      uses: actions/upload-artifact@v2
-      with:
-        name: app
-        path: app.zip
+      - name: List ZIP output (for debugging)
+        run: dir build_output
 
     - name: Upload EXE artifact
       uses: actions/upload-artifact@v2
