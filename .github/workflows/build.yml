@@ -23,10 +23,10 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        pyinstaller --onefile tu_script.py
+        pyinstaller --onefile app.py
 
     - name: Upload EXE artifact
       uses: actions/upload-artifact@v3
       with:
         name: my-windows-app
-        path: dist/tu_script.exe
+        path: dist/app.exe
