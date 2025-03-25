@@ -29,7 +29,7 @@ if uploaded_file and settlement_currency and exchange_rate:
             # Agregar columnas
             df['Settlement_Currency'] = settlement_currency
             df['Settlement_Exchange_Rate'] = exchange_rate
-            df['Settlement_Amount'] = (df['Amount'] * exchange_rate).round(4)
+            df['Settlement_Amount'] = (df['Amount'] / exchange_rate).round(4)
 
             # Mostrar preview
             st.subheader("👁️ Vista previa del archivo actualizado")
