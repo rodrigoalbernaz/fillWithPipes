@@ -37,7 +37,7 @@ if uploaded_file and settlement_currency and exchange_rate:
 
             # Exportar como texto plano delimitado por |
             output = io.StringIO()
-            txt_data = df.to_csv(sep='|', index=False, line_terminator='\n')
+            txt_data = df.to_csv(sep='|', index=False, lineterminator='\n')
             output.write(txt_data)
 
             st.download_button(
