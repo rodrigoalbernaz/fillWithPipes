@@ -2,7 +2,8 @@ name: Build Windows EXE
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -27,13 +28,7 @@ jobs:
 
       - name: Compress EXE into ZIP
         run: |
-          powershell -Command "Compress-Archive -Path dist\app.exe -DestinationPath build_output\app.zip"
+          powershell -Command "Compress-Archive -Path dist\app.exe -DestinationPath app.zip"
 
-      - name: List ZIP output (for debugging)
-        run: dir build_output
-
-    - name: Upload EXE artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: my-windows-app
-        path: dist/tu_script.exe
+      - name: Show result files
+        run: dir
