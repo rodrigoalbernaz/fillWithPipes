@@ -25,6 +25,16 @@ jobs:
       run: |
         pyinstaller --onefile app.py
 
+    - name: Zip the EXE file
+      run: |
+        powershell Compress-Archive -Path dist\app.exe -DestinationPath app.zip
+
+    - name: Upload zip manually
+      uses: actions/upload-artifact@v2
+      with:
+        name: app
+        path: app.zip
+
     - name: Upload EXE artifact
       uses: actions/upload-artifact@v2
       with:
