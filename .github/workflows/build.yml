@@ -25,7 +25,7 @@ jobs:
       run: |
         pyinstaller --onefile app.py
 
- - name: Upload EXE artifact
+    - name: Upload EXE artifact
       uses: actions/upload-artifact@v3.1.2
       with:
         name: my-windows-app
